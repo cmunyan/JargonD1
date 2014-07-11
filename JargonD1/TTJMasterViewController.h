@@ -12,6 +12,10 @@
 
 @interface TTJMasterViewController : UITableViewController
 
+@property (nonatomic, retain) NSArray *jargonNames;
+@property (nonatomic, retain) NSArray *jargonMeanings;
+
+
 @property (strong, nonatomic) TTJDetailViewController *detailViewController;
 
 @end

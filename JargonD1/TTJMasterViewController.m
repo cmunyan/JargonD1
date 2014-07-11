@@ -27,11 +27,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-    self.navigationItem.rightBarButtonItem = addButton;
+	_jargonNames = [[NSArray alloc] initWithObjects:@"Constraints", @"Critical Path",
+                  @"Deliverable", @"Gannt Chart", nil];
+    
+    _jargonMeanings = [[NSArray alloc]
+                      initWithObjects:@"Limitations to the project or project parameters, typically of time, cost, or quality nature.",
+                      @"Sequence of activities to be completed on time for project to be complete.  The longest duration path through the project activity network.",
+                      @"Tangible outcome produced by the project.",
+                      @"Bar chart depicting activities as blocks over time.", nil];
+    
     self.detailViewController = (TTJDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
 
@@ -60,15 +64,22 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _objects.count;
+    return _jargonNames.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc]
+                initWithStyle:UITableViewCellStyleDefault
+                reuseIdentifier:CellIdentifier];
+    }
 
-    NSDate *object = _objects[indexPath.row];
-    cell.textLabel.text = [object description];
+    cell.textLabel.text = _jargonNames[indexPath.row];
     return cell;
 }
 
