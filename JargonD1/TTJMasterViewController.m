@@ -31,10 +31,10 @@
                   @"Deliverable", @"Gannt Chart", nil];
     
     _jargonMeanings = [[NSArray alloc]
-                      initWithObjects:@"Limitations to the project or project parameters, typically of time, cost, or quality nature.",
-                      @"Sequence of activities to be completed on time for project to be complete.  The longest duration path through the project activity network.",
-                      @"Tangible outcome produced by the project.",
-                      @"Bar chart depicting activities as blocks over time.", nil];
+                      initWithObjects:@"http:/askapm.com/jargon/v1.htm#Constraints",
+                      @"http:/askapm.com/jargon/v1.htm#CriticalPath.htm",
+                      @"http:/askapm.com/jargon/constraints.htm",
+                      @"http:/askapm.com/jargon/constraints.htm", nil];
     
     self.detailViewController = (TTJDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
@@ -117,8 +117,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDate *object = _objects[indexPath.row];
-    self.detailViewController.detailItem = object;
+    NSString *urlString = [_jargonMeanings
+                           objectAtIndex:indexPath.row];
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    self.detailViewController.webView.scalesPageToFit = YES;
+    
+    [self.detailViewController.webView loadRequest:request];
+
 }
 
 @end
